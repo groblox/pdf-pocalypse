@@ -7,6 +7,7 @@ A local, fail-closed accessibility remediation and verification pipeline that co
 [4-Minute Explainer](#4-minute-explainer) ·
 [2-Minute Explainer](#2-minute-explainer) ·
 [ADA Compliance Matrix](#ada-title-ii-compliance-what-this-tool-covers-and-what-still-needs-a-human) ·
+[Deep Audit & Known Gaps](docs/ADA_WCAG_AUDIT.md) ·
 [How It Works](#how-it-works-architecture--stages) ·
 [Pluggable AI & Evals](#pluggable-ai--independent-eval-model-support) ·
 [Setup](#setup--installation) ·
@@ -96,6 +97,8 @@ Automated validation (including `veraPDF`) is **necessary, not sufficient** (see
 - **Poor source scans**: Severely degraded scans cannot be fixed by OCR; the content review flags them so authors can supply born-digital files or clean 300-dpi rescans.
 - **Language of parts (WCAG 3.1.2)**: Bilingual documents are tagged with their primary language only.
 - **Color-only meaning (WCAG 1.4.1)** and **complex architectural geometry**: Drawings whose meaning lives in dimensioned geometry carry an explicit complex-drawing notice in alt text; Word reports flag author-only structural issues (heading styles, merged tables, vague link text, floating images).
+
+> For a complete criterion-by-criterion WCAG 2.1/2.2 AA & PDF/UA-1 engineering audit—including code bugs fixed, 15 active WCAG/PDF-UA alignment gaps, pipeline quirks, and prioritized recommendations—see **[`docs/ADA_WCAG_AUDIT.md`](docs/ADA_WCAG_AUDIT.md)**.
 
 ---
 
