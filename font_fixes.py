@@ -555,7 +555,7 @@ def _embed(pdf: pikepdf.Pdf, font: pikepdf.Dictionary, stats: Counter) -> None:
         stats["unembedded_no_substitute"] += 1
         return
     path, symbolic = choice
-    substitute = not symbolic and not any(p.search(str(font.get("/BaseFont", ""))) for p, _ in FAMILIES)
+    substitute = not symbolic and not any(p.search(str(font.get("/BaseFont", ""))) for p, *_ in FAMILIES)
     tt = _font_program(path, symbolic, _differences_unicodes(font))
     if tt["OS/2"].fsType == 2:  # restricted-license embedding
         stats["unembedded_restricted"] += 1

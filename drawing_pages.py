@@ -351,8 +351,14 @@ def _figure_content(ops, artifact_forms: set) -> tuple[list, int]:
 
 def _set_parent_tree(tree, key: int, value) -> None:
     """Set one entry of a (flat, or one-level) number tree, keeping keys sorted."""
-    holder = tree if "/Nums" in tree or "/Kids" not in tree else \
-        next((k for k in tree.Kids if "/Nums" in k), tree.Kids[-1])
+    if "/Nums" in tree or "/Kids" not in tree:
+        holder = tree
+    else:
+        kids = [k for k in tree.Kids if "/Nums" in k]
+        holder = next(
+            (k for k in kids if "/Limits" in k and int(k.Limits[0]) <= key <= int(k.Limits[1])),
+            next((k for k in kids if "/Limits" in k and key <= int(k.Limits[1])), kids[-1] if kids else tree),
+        )
     nums = holder.get("/Nums") or pikepdf.Array()
     pairs = {int(nums[i]): nums[i + 1] for i in range(0, len(nums), 2)}
     pairs[key] = value

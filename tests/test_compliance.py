@@ -11,6 +11,7 @@ import pymupdf
 import contrast_fix
 import drawing_pages
 import fidelity
+import font_fixes
 import form_labels
 import manifest_builder
 import struct_fixes
@@ -110,6 +111,47 @@ class StructureAndHelpersTests(unittest.TestCase):
         short = form_labels._short("Very long question about contractor safety compliance history: Yes", 45)
         self.assertTrue(short.endswith(": Yes"))
         self.assertLessEqual(len(short), 46)
+
+    def test_containers_constants_do_not_collide(self):
+        self.assertEqual(struct_fixes.LIST_CONTAINERS, {"/LBody"})
+        self.assertIn("/Table", struct_fixes.STRAY_CONTAINERS)
+        self.assertNotIn("/LBody", struct_fixes.STRAY_CONTAINERS)
+
+    def test_fix_fonts_embeds_unembedded_standard_font(self):
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "unembedded.pdf"
+            doc = pymupdf.open()
+            pg = doc.new_page()
+            pg.insert_text((72, 72), "Hello world in unembedded Helvetica", fontsize=12, fontname="helv")
+            doc.save(p)
+            doc.close()
+
+            with pikepdf.open(p) as pdf:
+                stats = font_fixes.fix_fonts(pdf)
+                self.assertTrue(any(k.startswith("embedded_") for k in stats))
+
+    def test_parent_tree_multi_kid_operations(self):
+        pdf = pikepdf.new()
+        page = pdf.add_blank_page()
+        page.obj.StructParents = 1
+        kid0 = pdf.make_indirect(pikepdf.Dictionary(Nums=pikepdf.Array([0, pikepdf.Dictionary(S=pikepdf.Name.P)]),
+                                                    Limits=pikepdf.Array([0, 0])))
+        kid1 = pdf.make_indirect(pikepdf.Dictionary(Nums=pikepdf.Array([1, pikepdf.Dictionary(S=pikepdf.Name.P),
+                                                                        99, pikepdf.Dictionary(S=pikepdf.Name.P)]),
+                                                    Limits=pikepdf.Array([1, 99])))
+        tree = pdf.make_indirect(pikepdf.Dictionary(Kids=pikepdf.Array([kid0, kid1])))
+        root = pdf.make_indirect(pikepdf.Dictionary(Type=pikepdf.Name.StructTreeRoot, ParentTree=tree, K=pikepdf.Array()))
+        pdf.Root.StructTreeRoot = root
+
+        # _set_parent_tree routes key=2 to kid1 (which spans [1, 99]), not kid0
+        drawing_pages._set_parent_tree(tree, 2, pikepdf.Dictionary(S=pikepdf.Name.Figure))
+        self.assertEqual([int(kid0.Nums[i]) for i in range(0, len(kid0.Nums), 2)], [0])
+        self.assertIn(2, [int(kid1.Nums[i]) for i in range(0, len(kid1.Nums), 2)])
+
+        # drop_dangling_mcrs cleans unowned ParentTree keys across Kids
+        dropped = struct_fixes.drop_dangling_mcrs(pdf)
+        self.assertGreaterEqual(dropped, 3)  # keys 0, 2, 99 unowned; only key 1 is owned by page
+        self.assertEqual([int(kid1.Nums[i]) for i in range(0, len(kid1.Nums), 2)], [1])
 
 
 if __name__ == "__main__":

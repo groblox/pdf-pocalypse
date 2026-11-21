@@ -317,7 +317,7 @@ def _page_field_labels(page) -> dict[str, str]:
 
 GROUPING = {"/Document", "/Part", "/Sect", "/Div", "/Art", "/NonStruct"}
 TEXT_BLOCKS = {"/P", "/H", "/H1", "/H2", "/H3", "/H4", "/H5", "/H6"}
-CONTAINERS = {"/LBody"}  # a label in one: its field goes inside, at the end
+LIST_CONTAINERS = {"/LBody"}  # a label in one: its field goes inside, at the end
 CELLS = {"/TD", "/TH"}  # table fields are placed by row and column (_table_cells), not by label text
 
 
@@ -364,7 +364,7 @@ def place_form_fields(pdf: pikepdf.Pdf) -> dict[str, int]:
         elif s == "/Link" and len(objrs) == 1:
             links.append((parent, el, objrs[0].Obj))
     for parent, el in _in_order(root):  # label pieces in reading order, outside tables
-        if str(el.get("/S")) in TEXT_BLOCKS | CONTAINERS and str(parent.get("/S")) not in CELLS \
+        if str(el.get("/S")) in TEXT_BLOCKS | LIST_CONTAINERS and str(parent.get("/S")) not in CELLS \
                 and el.get("/Pg") is not None and _kids(el) and all(isinstance(k, int) for k in _kids(el)):
             blocks.append((parent, el))
     if not forms:
@@ -468,7 +468,7 @@ def place_form_fields(pdf: pikepdf.Pdf) -> dict[str, int]:
         kids = _kids(b)
         if not any((b.objgen, int(m)) in placed for m in kids):
             continue
-        if str(b.S) in CONTAINERS:
+        if str(b.S) in LIST_CONTAINERS:
             extra = []
             for m in kids:
                 for f in placed.get((b.objgen, int(m)), []):
@@ -963,7 +963,7 @@ def apply_wtpdf(pdf: pikepdf.Pdf, path, wrap_artifacts: bool = True) -> None:
     add_structure_destinations(pdf)
 
 
-CONTAINERS = {"/Document", "/Table", "/THead", "/TBody", "/TFoot", "/TR", "/L"}
+STRAY_CONTAINERS = {"/Document", "/Table", "/THead", "/TBody", "/TFoot", "/TR", "/L"}
 
 
 def artifact_stray_content(pdf: pikepdf.Pdf) -> int:
@@ -976,7 +976,7 @@ def artifact_stray_content(pdf: pikepdf.Pdf) -> int:
     page_index = {p.obj.objgen: i for i, p in enumerate(pdf.pages)}
     drop: set[tuple[int, int]] = set()
     for _, el in list(_walk(root)):
-        if str(el.get("/S")) not in CONTAINERS:
+        if str(el.get("/S")) not in STRAY_CONTAINERS:
             continue
         kept = []
         for k in _kids(el):
@@ -1201,15 +1201,22 @@ def drop_dangling_mcrs(pdf: pikepdf.Pdf) -> int:
         if isinstance(obj, pikepdf.Stream) and "/StructParents" in obj:
             owned.add(int(obj.StructParents))
     tree = root.get("/ParentTree")
-    nums = tree.get("/Nums") if tree is not None else None
-    if nums is not None:
-        kept_nums = []
-        for i in range(0, len(nums), 2):
-            if int(nums[i]) in owned:
-                kept_nums += [nums[i], nums[i + 1]]
-            else:
-                dropped += 1
-        tree.Nums = pikepdf.Array(kept_nums)
+    if tree is not None:
+        holders = [tree] if "/Nums" in tree else [k for k in tree.get("/Kids", []) if "/Nums" in k]
+        for holder in holders:
+            nums = holder.get("/Nums")
+            if nums is None:
+                continue
+            kept_nums = []
+            for i in range(0, len(nums), 2):
+                if int(nums[i]) in owned:
+                    kept_nums += [nums[i], nums[i + 1]]
+                else:
+                    dropped += 1
+            holder.Nums = pikepdf.Array(kept_nums)
+            if holder is not tree and "/Limits" in holder and kept_nums:
+                keys = [int(kept_nums[i]) for i in range(0, len(kept_nums), 2)]
+                holder.Limits = pikepdf.Array([min(keys), max(keys)])
     return dropped
 
 
