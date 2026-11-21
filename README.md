@@ -1,4 +1,4 @@
-# a11y-forge — Accessible Document Remediation Pipeline (PDF & Word)
+# pdf-pocalypse — Accessible Document Remediation Pipeline (PDF & Word)
 
 A local, fail-closed accessibility remediation and verification pipeline that converts PDFs (bid packages, specifications, forms, design standards, drawings, scans, org charts) and Word (`.docx`) documents toward **ADA Title II** web accessibility compliance (**WCAG 2.1 Level AA**, **PDF/UA-1 / ISO 14289-1**, **WTPDF 1.0**, and Microsoft's accessible Word guidelines).
 

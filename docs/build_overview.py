@@ -75,7 +75,7 @@ dt { font-weight: 600; margin-top: 4pt; } dd { margin: 0 0 2pt 12pt; }
 <title>Accessible PDF Remediation Pipeline: Overview</title><style>{report.CSS}{extra_css}</style></head><body>
 
 <h1>Accessible PDF Remediation Pipeline</h1>
-<p class="meta">a11y-forge · Overview for reviewers and stakeholders · {today}</p>
+<p class="meta">pdf-pocalypse · Overview for reviewers and stakeholders · {today}</p>
 
 <p class="lede">This pipeline takes the documents a public organization publishes (bid packages, design standards, guides and
 forms, as PDFs or Word files) and produces versions that people using screen readers and other assistive technology
