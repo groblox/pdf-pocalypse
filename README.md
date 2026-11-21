@@ -4,8 +4,8 @@ A local, fail-closed accessibility remediation and verification pipeline that co
 
 **Jump to:**
 [20-Second Explainer](#20-second-explainer) ·
-[4-Minute Explainer (Directors & Leadership)](#4-minute-explainer-for-directors--leadership) ·
-[2-Minute Explainer (IT & Engineering)](#2-minute-explainer-for-it--engineering) ·
+[4-Minute Explainer](#4-minute-explainer) ·
+[2-Minute Explainer](#2-minute-explainer) ·
 [ADA Compliance Matrix](#ada-title-ii-compliance-what-this-tool-covers-and-what-still-needs-a-human) ·
 [How It Works](#how-it-works-architecture--stages) ·
 [Pluggable AI & Evals](#pluggable-ai--independent-eval-model-support) ·
@@ -21,7 +21,7 @@ Drop in a folder of PDFs or Word files; get back visually identical, screen-read
 
 ---
 
-## 4-Minute Explainer (For Directors & Leadership)
+## 4-Minute Explainer
 
 ### The problem we are solving
 Public universities and government agencies publish thousands of PDFs and Word documents every year—bid packages, construction specifications, drawings, rate sheets, policies, and fillable forms. Most of these files look fine visually but are unusable for people who are blind, have low vision, or navigate by keyboard or voice: scanned pages have no readable text, fonts decode as gibberish, tables lose their headers, form fields aren't linked to their printed labels, and engineering drawings break into hundreds of meaningless image fragments.
@@ -51,7 +51,7 @@ Accessibility tools have a bad reputation when they rubber-stamp broken files or
 
 ---
 
-## 2-Minute Explainer (For IT & Engineering)
+## 2-Minute Explainer
 
 ### Stack & architecture
 The pipeline is a local **Python 3.12** CLI orchestrator ([`a11y_pipeline.py`](a11y_pipeline.py)) combining open-source PDF engines with a strict, schema-enforced multimodal AI layer:
