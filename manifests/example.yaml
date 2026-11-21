@@ -1,0 +1,69 @@
+# Example batch manifest.
+# New manifests are drafted automatically by running:
+#   python a11y_pipeline.py --source /path/to/folder-of-pdfs [--site-url <url> | --crawl <url>]
+# Edit titles, kinds, and per-document overrides here, then rerun.
+
+project:
+  name: example-batch
+  source_dir: ~/Downloads/example-batch
+  max_mb: 200
+  audience: public visitors (staff, vendors, contractors, designers)
+  # Optional: pages where these files are posted (for Stage 4 content/intent review)
+  # site_urls:
+  #   - https://example.edu/events/bid-posting
+  #   - https://example.box.com/s/shared-folder
+  # Optional: or crawl a site section to find where each PDF is linked
+  # site_crawl:
+  #   start: https://example.edu/documents/
+  #   prefix: https://example.edu/documents/
+  #   max_pages: 400
+  # Optional: saved plain-text file if the site is JS-rendered
+  # site_text_file: work/site-context.txt
+
+  # Optional: override AI models per batch (CLI flags & A11Y_* env vars take precedence)
+  # ai:
+  #   provider: claude-cli
+  #   model: claude-haiku-5-5
+  # eval:
+  #   provider: openai
+  #   model: gpt-4.1
+
+defaults: {}
+
+documents:
+  sample-specification.pdf:
+    kind: text
+    title: Sample Facility Specification
+    subject: Technical requirements and submission procedures for bidders.
+    # Optional reviewed alt-text overrides (keys from work/<batch>/01_images/<stem>.json):
+    # alt_text:
+    #   0b04920f: Campus map showing the main construction staging area on 13th Street.
+    #   1dd3654a: decorative
+
+  sample-drawing-set.pdf:
+    kind: scan_drawing
+    title: Existing Conditions Floor Plans
+    subject: Large-format architectural plans for contractor reference.
+    companion: true              # force drawing-set mode (one Figure + bookmark per sheet)
+    # attachments:
+    #   - file: attachments/example-batch/sample-drawing-set/sheet-index.xlsx
+    #     description: Sheet index as an accessible spreadsheet
+
+  sample-org-chart.pdf:
+    kind: text
+    title: Facilities Organization Chart
+    subject: Departmental reporting structure and unit responsibilities.
+    org_chart: true              # rebuild structure as nested lists in reporting order
+
+  sample-signed-memo.pdf:
+    kind: text
+    title: Approved Rate Schedule
+    subject: Fiscal year facility service rates.
+    publish_unsigned: false      # true to strip invalid digital signature and allow publishing
+    # keep_colours: true         # opt out of automatic contrast repair if colours are exact
+    # lang: es                   # override document language (ISO 639-1)
+
+  sample-notice.docx:
+    kind: docx
+    title: Bid Notice
+    subject: Public notice of bid dates and submission instructions.

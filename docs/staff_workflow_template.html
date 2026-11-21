@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Before You Post a PDF: Accessibility Check Workflow</title>
+<style>
+@page { size: letter; margin: 0.7in 0.75in 0.75in; }
+body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; }
+h1 { font-size: 22pt; color: #1e4d2b; margin: 0 0 4pt; line-height: 1.2; }
+h2 { font-size: 15pt; color: #1e4d2b; margin: 22pt 0 6pt; padding-bottom: 3pt; border-bottom: 2pt solid #1e4d2b; break-after: avoid; }
+h3 { font-size: 13pt; margin: 14pt 0 4pt; break-after: avoid; }
+p { margin: 0 0 8pt; }
+.meta { color: #555; font-size: 10.5pt; }
+.box { border: 2pt solid #1e4d2b; border-radius: 6pt; padding: 10pt 14pt; margin: 12pt 0; background: #f4f7f5; break-inside: avoid; }
+.box h2 { border: none; margin-top: 0; }
+.warn { border: 2pt solid #8a6100; border-radius: 6pt; padding: 10pt 14pt; margin: 12pt 0; background: #fff8e8; break-inside: avoid; }
+ol.steps { padding-left: 0; list-style: none; }
+ol.steps > li { position: relative; padding: 8pt 0 8pt 46pt; border-bottom: 0.5pt solid #ccc; break-inside: avoid; }
+ol.steps span.num { position: absolute; left: 0; top: 8pt; width: 32pt; height: 32pt; border-radius: 16pt;
+  background: #1e4d2b; color: #fff; font-weight: 700; font-size: 15pt; text-align: center; line-height: 32pt; }
+ol.steps strong.lead { font-size: 13pt; display: block; margin-bottom: 2pt; }
+ul { margin: 4pt 0 8pt 18pt; padding: 0; } li { margin: 3pt 0; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 10pt; break-inside: avoid; }
+caption { text-align: left; font-weight: 700; padding-bottom: 4pt; }
+th, td { border: 0.75pt solid #999; padding: 6pt 8pt; text-align: left; vertical-align: top; }
+th { background: #eef3ef; }
+tr { break-inside: avoid; }
+.folder { font-family: Menlo, Consolas, monospace; font-size: 11pt; background: #f1f1f1; border-radius: 4pt; padding: 8pt 12pt; white-space: pre; margin: 6pt 0 10pt; }
+mark { background: #ffe58a; padding: 0 2pt; }
+.yes { color: #1e6b33; font-weight: 700; } .no { color: #a12a2a; font-weight: 700; }
+dt { font-weight: 700; margin-top: 8pt; } dd { margin: 2pt 0 0 0; }
+</style>
+</head>
+<body>
+
+<h1>Before You Post a PDF</h1>
+<p class="meta">Accessibility check workflow for public documents · Staff guide · Questions: Accessibility Coordinator</p>
+
+<div class="box" role="note">
+<h2>The short version</h2>
+<p><strong>Do not post a PDF directly.</strong> Put it in the shared folder <strong>“1 - To Remediate”</strong> first.
+Within <strong>2 business days</strong> the accessible version comes back, with the same file name, in
+<strong>“2 - Ready to Post”</strong>. Post that one.</p>
+<p>This applies to every PDF that will be on the website, on the public calendar, or in a shared folder visible to the
+public or to bidders.</p>
+</div>
+
+<h2>Why we do this</h2>
+<p>Some people who use our documents cannot see them. They use a <strong>screen reader</strong>: software that reads
+the computer screen out loud. A screen reader can only read a PDF that was set up for it. Most of our PDFs are not.
+When a screen reader opens them, it reads nothing at all, or it reads nonsense. For example, one real bid
+form read “5HYLVHG” where the page says “Revised.”</p>
+<p>A federal rule now requires public entities to make the documents they post online accessible to people with disabilities.
+That includes bid documents, specifications, addenda, drawings, forms and standards. A bidder who uses a screen reader
+has the same right to read an addendum as everyone else.</p>
+<p>The fix is done for you. The process below adds the hidden information a screen reader needs. <strong>The document
+looks exactly the same</strong>; nothing you can see changes.</p>
+
+<h2>What needs to go through this</h2>
+<table>
+<caption>Does this PDF need the accessibility check?</caption>
+<thead><tr><th scope="col">Send it first</th><th scope="col">No need to send</th></tr></thead>
+<tbody><tr>
+<td><ul>
+<li>Anything going on a public web page</li>
+<li>Anything attached to a public calendar event</li>
+<li>Anything in a shared folder for the public, contractors or bidders</li>
+<li>Bid documents, specifications, addenda, drawings, bid tabulations</li>
+<li>Forms, standards, guides, procedures, rate sheets, org charts</li>
+<li>Scanned documents (yes, these can be fixed too)</li>
+</ul></td>
+<td><ul>
+<li>Files that stay inside your own folders and are never shared</li>
+<li>Drafts that will not be posted</li>
+</ul>
+<p><strong>Not sure? Send it.</strong></p></td>
+</tr></tbody>
+</table>
+
+<h2>The shared folders</h2>
+<p>You will use one shared folder with two subfolders inside it. Make a folder for each project inside both, named with the
+project number and name.</p>
+<div class="folder" role="img" aria-label="Folder layout: a folder named PDF Accessibility contains two folders, 1 - To Remediate and 2 - Ready to Post. Each of those contains a folder per project, for example 260100 Main Hall Renovation.">PDF Accessibility
+├── 1 - To Remediate
+│   └── 260100 Main Hall Renovation
+│       └── 030-26_Addendum No. 7.pdf        ← you put files here
+└── 2 - Ready to Post
+    └── 260100 Main Hall Renovation
+        └── 030-26_Addendum No. 7.pdf        ← you post files from here</div>
+
+<h2>Step by step</h2>
+<ol class="steps">
+<li><span class="num">1</span><strong class="lead">Step 1: Save the PDF in “1 - To Remediate”.</strong>
+Open the shared drive. Go to <strong>PDF Accessibility</strong>, then <strong>1 - To Remediate</strong>. Open the project's folder
+(or create one, named like <em>260100 Main Hall Renovation</em>). Upload the PDF.
+Keep the file's name the way you would post it.</li>
+
+<li><span class="num">2</span><strong class="lead">Step 2: That's it. The accessibility coordinator is notified automatically.</strong>
+Folder upload notifications alert the coordinator when a file arrives. You do not need to send an email.
+<br><strong>If it's urgent</strong> (for example an addendum that must go out today), also send a short email or
+chat message: “URGENT – Addendum 7 for Main Hall Renovation is in the folder, needs to go out today.”</li>
+
+<li><span class="num">3</span><strong class="lead">Step 3: Wait for it to come back (2 business days or less).</strong>
+The accessible version appears in <strong>2 - Ready to Post</strong>, in the same project folder, <strong>with the
+same file name</strong>. The coordinator will let you know when it is there.</li>
+
+<li><span class="num">4</span><strong class="lead">Step 4: Post the file from “2 - Ready to Post”.</strong>
+Upload or attach <em>that</em> file, not your original. If an older version is already posted, replace it.
+If a file named like <em>Existing Plans – Set 1 - accessible description.pdf</em> is posted next to it, take that one
+down: it is no longer needed, because the descriptions are now built into the file itself.</li>
+
+</ol>
+
+<h2>Please don't</h2>
+<p>These undo the accessibility work. If you need any of them, do it <strong>before</strong> you send the file.</p>
+<table>
+<caption>Things that break an accessible PDF</caption>
+<thead><tr><th scope="col">Don't</th><th scope="col">Do this instead</th></tr></thead>
+<tbody>
+<tr><td><span class="no">Don't</span> post a PDF before it comes back from “2 - Ready to Post”.</td>
+<td>If a deadline makes that impossible, contact the accessibility coordinator right away and we will work it out.</td></tr>
+<tr><td><span class="no">Don't</span> change a fixed PDF: no adding, removing or moving pages, no combining files, no
+signing or stamping it afterwards.</td>
+<td>Make all changes first, then send the final file. If something changes later, send the new version through again.</td></tr>
+<tr><td><span class="no">Don't</span> “Print to PDF” or “Save as” a fixed PDF, or run it through a PDF shrinker.</td>
+<td>Post the file exactly as it comes back.</td></tr>
+<tr><td><span class="no">Don't</span> rename the file after it comes back.</td>
+<td>Name it the way you want it posted before you send it.</td></tr>
+</tbody>
+</table>
+
+<h2>Common questions</h2>
+<dl>
+<dt>Will the document look different?</dt>
+<dd>No. The changes are hidden information that screen readers use. Pages look the same.</dd>
+<dt>Can't I just use Adobe Acrobat's “Make Accessible” button?</dt>
+<dd>It helps, but it misses a lot, especially on scans, forms and drawings. Our process fixes those and then checks
+every file with the official accessibility checker, so we know it passes.</dd>
+<dt>What about scanned documents, like a signed bid tab?</dt>
+<dd>Send them. They are fixed so a screen reader can read the words.</dd>
+<dt>What about Word or Excel files?</dt>
+<dd>Word (<code>.docx</code>) files are supported alongside PDFs. If you need to post an Excel file or other format, check with the coordinator first.</dd>
+<dt>Is there a size limit?</dt>
+<dd>No. Very large drawing sets come back as one file, the same as everything else; they may take a little longer.</dd>
+<dt>I also see a “reports” folder. Do I need it?</dt>
+<dd>No. The reports are a record of what was fixed. You don't need to post or read them.</dd>
+<dt>What if I already posted something without sending it?</dt>
+<dd>Put it in “1 - To Remediate” now, then replace the posted copy when the accessible version comes back.</dd>
+<dt>Who checks the work?</dt>
+<dd>Every file is tested by an independent accessibility checker before it comes back, and the coordinator reviews the results.</dd>
+</dl>
+
+<div class="box" role="note">
+<h2>Questions or urgent requests</h2>
+<p><strong><mark>[Accessibility Coordinator Name]</mark></strong><br>
+Email: <mark>[email to be added]</mark><br>
+Phone / Chat: <mark>[to be added]</mark></p>
+<p>Turnaround: <strong>2 business days or less.</strong> Urgent items (addenda, bid deadlines): flag them and we will
+do our best for the same day.</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Secrets & environment
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.ruff_cache/
+.pytest_cache/
+
+# OS metadata
+.DS_Store
+._*
+
+# Local tools & runtime artifacts
+tools/
+work/
+logs/
+output/
+attachments/
+
+# Local batch manifests (contain local download paths); keep example template
+manifest.yaml
+manifests/*.yaml
+manifests/*.yaml.bak
+!manifests/example.yaml
+
+# Internal working handoff notes
+handoff.md

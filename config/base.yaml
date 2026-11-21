@@ -1,0 +1,93 @@
+# pdf-a11y 2.10.0 base config for accessible document remediation.
+# a11y_pipeline.py deep-merges per-document values from the batch manifest over this
+# (title, subject, tagging engine, image strategy) before each run.
+
+# AI backends (optional; overridden by manifest project.ai/project.eval, env vars
+# A11Y_AI_* / A11Y_EVAL_*, or CLI flags --ai-provider/--eval-provider etc.).
+ai:
+  provider: "auto"            # auto | claude-cli | anthropic | openai | openrouter | ollama | gemini | none
+  model: "claude-haiku-5-5"   # default model for descriptions, drawings, form labels, org charts, titles
+  # base_url: null            # optional custom endpoint (e.g. http://localhost:11434/v1 for Ollama)
+
+# Optional independent evaluator for Stage 4 content review & Stage 5 alt-text sanity checks.
+# Leave unset/commented to inherit `ai:` above, or point at a stronger/different model:
+# eval:
+#   provider: "openai"        # or: gemini, anthropic, claude-cli, openrouter, ollama, none
+#   model: "gpt-4.1"          # e.g. gpt-4.1, gpt-4o, gemini-2.5-pro, claude-sonnet-4-6
+
+document:
+  primary_language: "en"
+  title: null                 # set per document from manifest.yaml
+  author: "Document Accessibility Pipeline"
+  subject: null               # set per document — the shipped default leaks a test-doc subject
+  keywords: []
+  declare_pdf_ua: true
+  display_doc_title: true
+
+tagging:
+  engine: "opendataloader"
+  wrap_untagged_as_artifact: true
+  demote_shared_mcid_xobjects: true
+  opendataloader: {}
+  # pdf-a11y falls back to its basic tagger when opendataloader fails; without these keys the
+  # fallback itself crashes (KeyError 'heuristic'). Font sizes in points.
+  heuristic:
+    heading_thresholds: {h1: 20, h2: 16, h3: 14, h4: 12}
+    body_min_size: 8
+
+images:
+  strategy: "vlm"
+  decorative_heuristics:
+    max_decorative_width: 32
+    max_decorative_height: 32
+    entropy_threshold: 1.5
+  vlm:
+    provider: "anthropic"     # fallback only; the image stage (image_stage.py) writes alt text first
+    model: "claude-haiku-5-5"
+    api_key_env: "ANTHROPIC_API_KEY"
+    concurrency: 4            # parallel `claude -p` processes; gentle on subscription rate limits
+    timeout_seconds: 180
+    max_alt_length: 150       # one sentence; tables and scanned text get OCR instead of long alt text
+    prefer_existing_caption: true
+    output_language: "en"
+    verbose_progress: true
+  alt_overrides: {}
+
+contrast:
+  # Report only. Colour on construction drawings carries meaning (demo vs. existing,
+  # hazard callouts), so we never let the tool recolour it.
+  apply_remapping: false
+  min_ratio_normal_text: 4.5
+  min_ratio_large_text: 3.0
+  large_text_threshold_pt: 18.0
+  large_text_bold_threshold_pt: 14.0
+  color_mappings: {}
+
+reading_order:
+  algorithm: "tagged"
+  column_gap_threshold: 30
+
+tables:
+  header_detection: "heuristic"
+  overrides: []
+
+forms:
+  label_strategy: "nearby_text"
+  form_field_labels: {}
+
+language_detection:
+  enabled: false
+  min_confidence: 0.85
+  library: "lingua"
+
+validation:
+  run_verapdf: true
+  verapdf_path: "tools/verapdf/verapdf"   # made absolute at runtime
+  profile: "ua1"
+  fail_on_error: false
+
+output:
+  directory: "work/02_a11y"               # overridden at runtime
+  suffix: "_a11y"
+  write_report: true
+  backup_originals: false                 # originals stay untouched in the source folder
